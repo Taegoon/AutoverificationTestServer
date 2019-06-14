@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=1900">
+<title>SEEGENEMEDICAL</title> <!-- css -->
+<!-- js --> 
+<script	src="./jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	var key = '';
+	function init(){
+		key = getParameter();
+		var urlStr = "./testAPI/jsonData";
+		if(key != ''){
+			urlStr = urlStr + "/" + key;
+		}
+		
+		$.ajax({
+			type : "POST",
+			contentType : 'application/json',
+			url : urlStr,
+			data : JSON.stringify({}),
+			success : function(result)
+			{
+				console.log('success!', result);
+				$("#jsonData").val(result);
+			},
+			error : function(e) 
+			{
+				console.log("ERROR: ", e);
+			}
+		});
+	}
+	
+	var getParameter = function () {
+		var returnValue;
+		var url = location.href;
+		if(url.indexOf('?') != -1){
+			var parameters = (url.slice(url.indexOf('?') + 1, url.length)).split('&');
+			return parameters[0].split('=')[1];
+		} else {
+			return '';
+		}
+	};
+
+		
+	$("#btn").click(function(){
+		var data = $("#jsonData").val();
+		try{
+			var jData = JSON.parse(data);
+			
+			var urlStr = "./testAPI/jsonData";
+			if(key != ''){
+				urlStr = urlStr + "/" + key;
+			}
+			
+			var r = confirm("저장하시겠습니까?");
+			if (r == true) {
+				$.ajax({
+					type : "PUT",
+					contentType : 'application/json',
+					url : urlStr,
+					data : JSON.stringify(jData),
+					success : function(result)
+					{
+						console.log('success!', result);
+						alert("저장에 성공하였습니다.");
+						$("#jsonData").val(result);
+					},
+					error : function(e) 
+					{
+						console.log("ERROR: ", e);
+					}
+				});	
+			} else {
+			  
+			}
+			
+		}catch(e){
+			alert("JSON Data Parsing 오류가 발견되었습니다. Data를 확인해주세요.");
+			console.log('error',e);
+		}
+
+	});
+
+	$("#btnHome").click(function(){
+		location.href = "./";
+	});
+	init();
+});
+</script>
+</head>
+<body>
+JSON DATA<br/>
+<textarea id="jsonData" spellcheck="false" style="height: 800px; width: 1800px;"></textarea>
+<br/>
+<button id="btn">저장</button>
+<button id="btnHome">Home</button>
+
+</body>
+</html>

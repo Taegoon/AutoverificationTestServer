@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db1.MariaEPReceiptDao">
+
+	<insert id="saveMariaEPReceiptList" parameterType="com.seegeneAI.db2MariaDBMapper.data.EPReceiptDto">
+        INSERT INTO TB_EP_RECEIPT
+			(LMB_CODE, 
+			RECEIPT_DATE, 
+			RECEIPT_NO, 
+			HOSPITAL_CODE, 
+			HOSPITAL_NAME, 
+			PATIENT_NAME, 
+			SEX, 
+			AGE_YEAR, 
+			STATUS, 
+			PID_PRE, 
+			HOSPITAL_CHART_NO, 
+			USER_ID)
+		values
+			(
+			#{lmbCode},
+			#{receiptDate}, 
+			#{receiptNo}, 
+			#{hospitalCode}, 
+			#{hospitalName}, 
+			#{patientName}, 
+			#{sex}, 
+			#{ageYear}, 
+			#{status}, 
+			#{pidPre}, 
+			#{hospitalChartNo}, 
+			#{userId}
+			)
+		ON DUPLICATE KEY UPDATE
+			LMB_CODE 		= #{lmbCode}, 
+			RECEIPT_DATE 	= #{receiptDate}, 
+			RECEIPT_NO 		= #{receiptNo}, 
+			HOSPITAL_CODE 	= #{hospitalCode}, 
+			HOSPITAL_NAME 	= #{hospitalName}, 
+			PATIENT_NAME 	= #{patientName}, 
+			SEX 			= #{sex}, 
+			AGE_YEAR 		= #{ageYear}, 
+			STATUS 			= #{status}, 
+			PID_PRE 		= #{pidPre}, 
+			HOSPITAL_CHART_NO = #{hospitalChartNo}, 
+			USER_ID 		= #{userId}
+    </insert>
+
+</mapper>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db2.Db2Dao">
+
+    <select id="getMc600mList1" resultType="java.util.Map">
+		SELECT * FROM TB_AUTO_RECEIPT WHERE RECEIPT_DATE='20190131'
+    </select>
+
+    <select id="getMc600mList2" resultType="java.util.Map">
+		SELECT * FROM MCLISDLIB . MC600M@
+		WHERE F600COR = 'NML'
+		AND F600DAT = 20190219
+		AND F600HAK = '5231'
+		AND F600C03 != 'Y'
+		AND F600CDT = 20190219
+		AND F600CTM <![CDATA[>=]]> 90000
+		AND F600CTM <![CDATA[<=]]> 150000
+    </select>
+</mapper>

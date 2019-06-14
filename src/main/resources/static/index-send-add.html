@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=1900">
+<title>SEEGENEMEDICAL</title> <!-- css -->
+<!-- js --> 
+<script	src="./jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	var data = '{ \n\n'+
+    '    "lmbCode" : "0000", \n'+
+    '    "receiptDate" : "20180831", \n'+
+    '    "receiptNo" : "12345", \n'+
+    '    "hospitalCode" : "36584", \n'+
+    '    "hospitalName" : "서울병원", \n'+
+    '    "patientName" : "홍길동", \n'+
+    '    "sex" : "M", \n'+
+    '    "birthDay" : "20180903", \n'+
+    '    "branchCode" : "1234", \n'+
+    '    "branchName" : "서울지점", \n'+
+    '    "fetusNo" : "", \n'+
+    '    "scanWeek" : "", \n'+
+    '    "pregnancyDay" : "", \n'+
+    '    "userId" : "L12345", \n'+
+    '    "userName" : "담당자", \n'+
+    '    "resultStatus" : "I", \n'+
+    '    "testResultList" : [ \n'+
+    '    { \n'+
+    '        "lmbCode" : "0000", \n'+
+    '        "receiptDate" : "20180831", \n'+
+    '        "receiptNo" : "12345", \n'+
+    '        "testCode" : "41002", \n'+
+    '        "testSubCode" : "", \n'+
+    '        "testName" : "T3", \n'+
+    '        "workNo" : "12", \n'+
+    '        "workName" : "SEC", \n'+
+    '        "departmentCode" : "5231", \n'+
+    '        "departmentName" : "면역학팀", \n'+
+    '        "testStaff" : "L54321", \n'+
+    '        "testStaffName" : "검사담당자", \n'+
+    '        "resultType" : "N", \n'+
+    '        "specimenCode" : "A01", \n'+
+    '        "specimenName" : "Serum", \n'+
+    '        "tsRackNo" : "", \n'+
+    '        "tsPosNo" : "", \n'+
+    '        "equipmentCode" : "611", \n'+
+    '        "rackNo" : "", \n'+
+    '        "posNo" : "", \n'+
+    '        "equipmentFlag" : "", \n'+
+    '        "numericResultRecv" : "", \n'+
+    '        "charResultRecv" : "", \n'+
+    '        "testStartDate" : "20180831111030",  \n'+
+    '        "testDate" : "20180831115550",  \n'+
+    '        "numericResultRecv1" : "",  \n'+
+    '        "charResultRecv1" : "",  \n'+
+    '        "testStartDate1" : "20180831111030", \n'+ 
+    '        "testDate1" : "20180901032550", \n'+
+    '        "numericResultRecv2" : "", \n'+
+    '        "charResultRecv2" : "", \n'+
+    '        "testStartDate2" : "", \n'+
+    '        "testDate2" : "", \n'+
+    '        "prevResult" : "", \n'+
+    '        "refResultHigh" : "176.7", \n'+
+    '        "refResultLow" : "75.7", \n'+
+    '        "resultStatus" : "I", \n'+
+    '        "barcode" : "0123456789" \n'+
+    '    }, \n'+
+    '    { \n'+
+    '        "lmbCode" : "0000", \n'+
+    '        "receiptDate" : "20180831", \n'+
+    '        "receiptNo" : "12345", \n'+
+    '        "testCode" : "41003", \n'+
+    '        "testSubCode" : "", \n'+
+    '        "testName" : "T4", \n'+
+    '        "workNo" : "13", \n'+
+    '        "workName" : "SEC", \n'+
+    '        "departmentCode" : "5231", \n'+
+    '        "departmentName" : "면역학팀", \n'+
+    '        "testStaff" : "L54321", \n'+
+    '        "testStaffName" : "검사담당자", \n'+
+    '        "resultType" : "N", \n'+
+    '        "specimenCode" : "A01", \n'+
+    '        "specimenName" : "Serum", \n'+
+    '        "tsRackNo" : "", \n'+
+    '        "tsPosNo" : "", \n'+
+    '        "equipmentCode" : "611", \n'+
+    '        "rackNo" : "", \n'+
+    '        "posNo" : "", \n'+
+    '        "equipmentFlag" : "", \n'+
+    '        "numericResultRecv" : "", \n'+
+    '        "charResultRecv" : "", \n'+
+    '        "testStartDate" : "20180831111530", \n'+ 
+    '        "testDate" : "20180831120050",  \n'+
+    '        "numericResultRecv1" : "", \n'+
+    '        "charResultRecv1" : "", \n'+
+    '        "testStartDate1" : "", \n'+
+    '        "testDate1" : "", \n'+
+    '        "numericResultRecv2" : "", \n'+
+    '        "charResultRecv2" : "", \n'+
+    '        "testStartDate2" : "", \n'+
+    '        "testDate2" : "", \n'+
+    '        "prevResult" : "", \n'+
+    '        "refResultHigh" : "12.22", \n'+
+    '        "refResultLow" : "5.40", \n'+
+    '        "resultStatus" : "I", \n'+
+    '        "barcode" : "0123456789" \n'+
+    '    } \n'+
+    '] \n'+
+	'}';
+	
+	var isEmpty = function(value){
+		if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ) {
+			return true
+		} else {
+			return false
+		}
+	}
+	
+	function $http(data){
+		
+		$.ajax({
+			type : "POST",
+			contentType : 'application/json',
+			url : './testAPI/addTestResult',
+			data : JSON.stringify(data),
+			success : function(result)
+			{
+				alert(result);
+				console.log('success!', result);
+				//{"validity":"valid","msg":"10건 성공"}
+				//{"validity":"error","msg":"해당 ID가 이미 추가되었습니다"}
+			},
+			error : function(e) 
+			{
+				console.log("ERROR: ", e);
+			}
+		});
+	}
+	
+	$("#btn").click(function(){
+
+		var baseurl = $("#baseurl").val();
+		var jsonData = $("#jsonData").val();
+		if(isEmpty(baseurl) || isEmpty(jsonData)){
+			alert("URL 또는 내용을 입력해주세요.");
+			return false;
+		}
+		var pJson = "";
+		try {
+			pJson = JSON.parse(jsonData);
+		} catch(error) {
+			alert("내용이 JSON형식이 아닙니다.");
+			return false;
+		}
+		pJson.baseUrl = baseurl;
+		$http(pJson);
+		
+		var ss = '{ \n\n'+
+	    '    "lmbCode" : "0000", \n'+
+	    '    "receiptDate" : "20190110", \n'+
+	    '    "receiptNo" : "12345", \n'+
+	    '    "hospitalCode" : "36584", \n'+
+	    '    "hospitalName" : "서울병원", \n'+
+	    '    "patientName" : "홍길동", \n'+
+	    '    "sex" : "M", \n'+
+	    '    "birthDay" : "20180903", \n'+
+	    '    "branchCode" : "1234", \n'+
+	    '    "branchName" : "서울지점", \n'+
+	    '    "fetusNo" : "", \n'+
+	    '    "scanWeek" : "", \n'+
+	    '    "pregnancyDay" : "", \n'+
+	    '    "userId" : "L12345", \n'+
+	    '    "userName" : "담당자", \n'+
+	    '    "resultStatus" : "I", \n'+
+	    '    "testResultList" : [ \n'+
+	    '    { \n'+
+	    '        "lmbCode" : "0000", \n'+
+	    '        "receiptDate" : "20190110", \n'+
+	    '        "receiptNo" : "12345", \n'+
+	    '        "testCode" : "41003", \n'+
+	    '        "testSubCode" : "", \n'+
+	    '        "testName" : "T4", \n'+
+	    '        "workNo" : "13", \n'+
+	    '        "workName" : "SEC", \n'+
+	    '        "departmentCode" : "5231", \n'+
+	    '        "departmentName" : "면역학팀", \n'+
+	    '        "testStaff" : "L54321", \n'+
+	    '        "testStaffName" : "검사담당자", \n'+
+	    '        "resultType" : "N", \n'+
+	    '        "specimenCode" : "A01", \n'+
+	    '        "specimenName" : "Serum", \n'+
+	    '        "tsRackNo" : "", \n'+
+	    '        "tsPosNo" : "", \n'+
+	    '        "equipmentCode" : "611", \n'+
+	    '        "rackNo" : "", \n'+
+	    '        "posNo" : "", \n'+
+	    '        "equipmentFlag" : "", \n'+
+	    '        "numericResultRecv" : "", \n'+
+	    '        "charResultRecv" : "", \n'+
+	    '        "testStartDate" : "20190110111153", \n'+ 
+	    '        "testDate" : "20190110121153",  \n'+
+	    '        "numericResultRecv1" : "", \n'+
+	    '        "charResultRecv1" : "", \n'+
+	    '        "testStartDate1" : "", \n'+
+	    '        "testDate1" : "", \n'+
+	    '        "numericResultRecv2" : "", \n'+
+	    '        "charResultRecv2" : "", \n'+
+	    '        "testStartDate2" : "", \n'+
+	    '        "testDate2" : "", \n'+
+	    '        "prevResult" : "", \n'+
+	    '        "resultStatus" : "I", \n'+
+	    '        "barcode" : "0123456789" \n'+
+	    '    } \n'+
+	    '] \n'+
+		'}';
+		var ss2 = '{ \n\n'+
+	    '    "lmbCode" : "0000", \n'+
+	    '    "receiptDate" : "20190110", \n'+
+	    '    "receiptNo" : "12346", \n'+
+	    '    "hospitalCode" : "36584", \n'+
+	    '    "hospitalName" : "서울병원", \n'+
+	    '    "patientName" : "홍길동", \n'+
+	    '    "sex" : "M", \n'+
+	    '    "birthDay" : "20180903", \n'+
+	    '    "branchCode" : "1234", \n'+
+	    '    "branchName" : "서울지점", \n'+
+	    '    "fetusNo" : "", \n'+
+	    '    "scanWeek" : "", \n'+
+	    '    "pregnancyDay" : "", \n'+
+	    '    "userId" : "L12345", \n'+
+	    '    "userName" : "담당자", \n'+
+	    '    "resultStatus" : "I", \n'+
+	    '    "testResultList" : [ \n'+
+	    '    { \n'+
+	    '        "lmbCode" : "0000", \n'+
+	    '        "receiptDate" : "20190110", \n'+
+	    '        "receiptNo" : "12346", \n'+
+	    '        "testCode" : "41003", \n'+
+	    '        "testSubCode" : "", \n'+
+	    '        "testName" : "T4", \n'+
+	    '        "workNo" : "13", \n'+
+	    '        "workName" : "SEC", \n'+
+	    '        "departmentCode" : "5231", \n'+
+	    '        "departmentName" : "면역학팀", \n'+
+	    '        "testStaff" : "L54321", \n'+
+	    '        "testStaffName" : "검사담당자", \n'+
+	    '        "resultType" : "N", \n'+
+	    '        "specimenCode" : "A01", \n'+
+	    '        "specimenName" : "Serum", \n'+
+	    '        "tsRackNo" : "", \n'+
+	    '        "tsPosNo" : "", \n'+
+	    '        "equipmentCode" : "611", \n'+
+	    '        "rackNo" : "", \n'+
+	    '        "posNo" : "", \n'+
+	    '        "equipmentFlag" : "", \n'+
+	    '        "numericResultRecv" : "", \n'+
+	    '        "charResultRecv" : "", \n'+
+	    '        "testStartDate" : "20190110111153", \n'+ 
+	    '        "testDate" : "20190110121153",  \n'+
+	    '        "numericResultRecv1" : "", \n'+
+	    '        "charResultRecv1" : "", \n'+
+	    '        "testStartDate1" : "", \n'+
+	    '        "testDate1" : "", \n'+
+	    '        "numericResultRecv2" : "", \n'+
+	    '        "charResultRecv2" : "", \n'+
+	    '        "testStartDate2" : "", \n'+
+	    '        "testDate2" : "", \n'+
+	    '        "prevResult" : "", \n'+
+	    '        "resultStatus" : "I", \n'+
+	    '        "barcode" : "0123456789" \n'+
+	    '    } \n'+
+	    '] \n'+
+		'}';
+
+		ss = JSON.parse(ss);
+		ss2 = JSON.parse(ss2);
+		
+		ss.baseUrl = baseurl;
+		ss2.baseUrl = baseurl;
+		
+//		$http(ss);
+//		$http(ss2);
+		
+	});
+	
+	$("#btnHome").click(function(){
+		location.href = "./";
+	});
+	
+	$("#jsonData").val(data);
+});
+</script>
+</head>
+<body>
+ADD TEST RESULT<br/><br/>
+<button id="btn" style="height:40px; font-size:15px; font-weight:bold">검사정보 추가</button>
+<button id="btnHome">Home</button>
+
+<br/>
+Base URL<br/>
+<input type="text" name="baseurl" id="baseurl" value="http://127.0.0.1:8081/autoverification" style="width:700px;height:30px; font-size:20px; "></input><br/>
+<br/>
+내용<br/>
+<textarea id="jsonData" spellcheck="false" style="height: 500px; width: 1000px;"></textarea>
+<br/>
+
+</body>
+</html>

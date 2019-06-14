@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=1900">
+<title>SEEGENEMEDICAL</title> <!-- css -->
+<!-- js --> 
+<script	src="./jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	var data = '{ \n'+
+		'    "lmbCode" : "0000", \n'+
+		'    "receiptDate" : "20180831", \n'+
+		'    "receiptNo" : "12345", \n'+
+		'    "testCode" : "41002", \n'+
+		'    "testSubCode" : "", \n'+
+		'    "specimenCode" : "A01", \n'+
+		'    "workNo" : "13", \n'+
+		'    "testStaff" : "L54322", \n'+
+		'    "testStaffName" : "검사담당자2", \n'+
+		'    "resultType" : "N", \n'+
+		'    "tsRackNo" : "1", \n'+
+		'    "tsPosNo" : "1", \n'+
+		'    "equipmentCode" : "612", \n'+
+		'    "rackNo" : "1", \n'+
+		'    "posNo" : "1", \n'+
+		'    "equipmentFlag" : "Cal.E", \n'+
+		'    "numericResultRecv" : "17.1", \n'+
+		'    "charResultRecv" : "", \n'+
+		'    "testStartDate" : "20180831223010", \n'+
+		'    "testDate" : "20180831211314", \n'+
+		'    "numericResultRecv1" : "", \n'+
+		'    "charResultRecv1" : "", \n'+
+		'    "testStartDate1" : "", \n'+
+		'    "testDate1" : "", \n'+
+		'    "numericResultRecv2" : "", \n'+
+		'    "charResultRecv2" : "", \n'+
+		'    "testStartDate2" : "", \n'+
+		'    "testDate2" : "", \n'+
+		'    "prevResult" : "", \n'+
+		'    "refResultHigh" : "176.8", \n'+
+		'    "refResultLow" : "75.8", \n'+
+		'    "resultStatus" : "2", \n'+
+		'    "barcode" : "1234567891" \n'+
+		'} \n';
+	
+	var isEmpty = function(value){
+		if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ) {
+			return true
+		} else {
+			return false
+		}
+	}
+	
+	function $http(data){
+		
+		$.ajax({
+			type : "POST",
+			contentType : 'application/json',
+			url : './testAPI/editTestResult',
+			data : JSON.stringify(data),
+			success : function(result)
+			{
+				alert(result);
+				console.log('success!', result);
+				//{"validity":"valid","msg":"10건 성공"}
+				//{"validity":"error","msg":"해당 ID가 이미 추가되었습니다"}
+			},
+			error : function(e) 
+			{
+				console.log("ERROR: ", e);
+			}
+		});
+	}
+	
+	$("#btn").click(function(){
+
+		var baseurl = $("#baseurl").val();
+		var jsonData = $("#jsonData").val();
+		if(isEmpty(baseurl) || isEmpty(jsonData)){
+			alert("URL 또는 내용을 입력해주세요.");
+			return false;
+		}
+		var pJson = "";
+		try {
+			pJson = JSON.parse(jsonData);
+		} catch(error) {
+			alert("내용이 JSON형식이 아닙니다.");
+			return false;
+		}
+		pJson.baseUrl = baseurl;
+		$http(pJson);
+	});
+	
+	$("#btnHome").click(function(){
+		location.href = "./";
+	});
+	
+	$("#jsonData").val(data);
+});
+</script>
+</head>
+<body>
+UPDATE TEST RESULT<br/><br/>
+<button id="btn" style="height:40px; font-size:15px; font-weight:bold">검사정보 갱신</button>
+<button id="btnHome">Home</button>
+
+<br/>
+Base URL<br/>
+<input type="text" name="baseurl" id="baseurl" value="http://127.0.0.1:8081/autoverification" style="width:700px;height:30px; font-size:20px; "></input><br/>
+<br/>
+내용<br/>
+<textarea id="jsonData" spellcheck="false" style="height: 500px; width: 1000px;"></textarea>
+<br/>
+
+</body>
+</html>

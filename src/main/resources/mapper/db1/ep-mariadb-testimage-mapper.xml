@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db1.MariaEPTestImageDao">
+
+	<insert id="saveMariaEPTestImageList" parameterType="com.seegeneAI.db2MariaDBMapper.data.EPTestImageDto">
+        INSERT INTO TB_EP_TEST_IMAGE
+			(LMB_CODE, 
+			RECEIPT_DATE, 
+			RECEIPT_NO, 
+			TEST_CODE, 
+			SPECIMEN_CODE, 
+			TEST_SUB_CODE, 
+			SEQ, 
+			SOURCE_PATH, 
+			STORAGE_PATH, 
+			CREATION_DATE, 
+			UPDATE_DATE, 
+			USER_ID)
+		values
+			(
+			#{lmbCode}, 
+			#{receiptDate}, 
+			#{receiptNo}, 
+			#{testCode}, 
+			#{specimenCode}, 
+			#{testSubCode}, 
+			#{seq}, 
+			#{sourcePath}, 
+			#{storagePath}, 
+			#{creationDate}, 
+			#{updateDate}, 
+			#{userId}
+			)
+		ON DUPLICATE KEY UPDATE
+			LMB_CODE 			= #{lmbCode}, 
+			RECEIPT_DATE 		= #{receiptDate}, 
+			RECEIPT_NO 			= #{receiptNo}, 
+			TEST_CODE 			= #{testCode}, 
+			SPECIMEN_CODE 		= #{specimenCode}, 
+			TEST_SUB_CODE 		= #{testSubCode}, 
+			SEQ 				= #{seq}, 
+			SOURCE_PATH 		= #{sourcePath}, 
+			STORAGE_PATH 		= #{storagePath}, 
+			CREATION_DATE 		= #{creationDate}, 
+			UPDATE_DATE 		= #{updateDate}, 
+			USER_ID 			= #{userId}
+    </insert>
+
+</mapper>
+

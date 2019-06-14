@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=1900" />
+<title>SEEGENEMEDICAL</title>
+<style>
+body {
+    font-family: Consolas, monospace;
+    font-size: 20px;
+    line-height: 1.6;
+    margin-left: 60px;
+    margin-top: 30px;
+}
+table{
+	border: 1px solid #444444;
+	width: 950px;
+}
+th, td{
+	border: 1px solid #444444;
+}
+</style> 
+<!-- js --> 
+<script	src="./jquery.min.js"></script>
+</head>
+<body>
+JSON DATA<br/><br/>
+<table>
+<thead>
+	<tr>
+		<th style="width:50px;">순번</th>
+		<th style="width:300px;">API명</th>
+		<th style="width:300px;">설명</th>
+		<th style="width:300px;">링크</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>1</td>
+		<td>/getDepartmentMaster</td>
+		<td>학부 리스트 정보</td>
+		<td><a href="./index-data.html?key=master_department">학부 Master</a></td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>/getEquipmentMaster</td>
+		<td>검사장비 리스트 정보</td>
+		<td><a href="./index-data.html?key=master_equipment">장비 Master</a></td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>/getWorkNameMaster</td>
+		<td>작업명 리스트 정보</td>
+		<td><a href="./index-data.html?key=master_workName">작업명 Master</a></td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>/getTestMaster</td>
+		<td>검사코드 리스트 정보</td>
+		<td><a href="./index-data.html?key=master_test">검사코드 Master</a></td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>/getCustomerMaster</td>
+		<td>거래처(지점,병원)리스트</td>
+		<td><a href="./index-data.html?key=master_customer">거래처 Master</a></td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>/getRemarkMaster</td>
+		<td>리마크 코드별 리스트</td>
+		<td><a href="./index-data.html?key=master_remark">리마크 Master</a></td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>/getDeltaResult</td>
+		<td>Delta 정보</td>
+		<td><a href="./index-data.html?key=deltaResult">DeltaResult</a></td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>/getCorrelationResult</td>
+		<td>연관 정보</td>
+		<td><a href="./index-data.html?key=correlationResult">CorrelationResult</a></td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>/getRetestInfo</td>
+		<td>재검 리스트 정보</td>
+		<td><a href="./index-data.html?key=retest">Retest</a></td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>/getReceiptInfo</td>
+		<td>접수정보(예외ID) 정보</td>
+		<td><a href="./index-data.html?key=receipt">Receipt</a></td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>/editMCLISResult</td>
+		<td>mCLIS에 결과를 업데이트</td>
+		<td>return: {"validity":"valid","msg":""}</td>
+	</tr>
+	<tr>
+		<td>12</td>
+		<td>/addTestResult</td>
+		<td>검사정보추가API</td>
+		<td><a href="./index-send-add.html">검사정보추가</a></td>
+	</tr>
+	<tr>
+		<td>13</td>
+		<td>/editTestResult</td>
+		<td>검사정보갱신API</td>
+		<td><a href="./index-send-update.html">검사항목정보갱신</a></td>
+	</tr>
+	<tr>
+		<td>14</td>
+		<td>/deleteTestResult</td>
+		<td>검사정보갱신API</td>
+		<td><a href="./index-send-delete.html">검사항목정보삭제</a></td>
+	</tr>
+	<tr>
+		<td>99</td>
+		<td>/</td>
+		<td>전체 정보</td>
+		<td><a href="./index-data.html">전체 Data</a></td>
+	</tr>
+</tbody>
+</table>
+
+</body>
+</html>

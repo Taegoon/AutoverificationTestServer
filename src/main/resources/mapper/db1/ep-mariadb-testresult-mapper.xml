@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db1.MariaEPTestResultDao">
+
+	<insert id="saveMariaEPTestResultList" parameterType="com.seegeneAI.db2MariaDBMapper.data.EPTestResultDto">
+        INSERT INTO TB_EP_TEST_RESULT
+			(LMB_CODE, 
+			RECEIPT_DATE, 
+			RECEIPT_NO, 
+			TEST_CODE, 
+			SPECIMEN_CODE, 
+			TEST_SUB_CODE, 
+			TEST_NAME, 
+			SPECIMEN_NAME, 
+			WORK_NAME, 
+			DEPARTMENT_CODE, 
+			DEPARTMENT_NAME, 
+			TEST_STAFF, 
+			TOTAL_VOLUME, 
+			NUM_RESULT1, 
+			NUM_RESULT2, 
+			NUM_RESULT3, 
+			CHR_RESULT,
+			CHOICE_FLAG, 
+			QUANTITY_OF_M_SPIKE, 
+			DECISION_CODE, 
+			TEST_DATE, 
+			EQUIPMENT_FLAG, 
+			EQUIPMENT_CODE, 
+			BARCODE, 
+			CREATION_DATE, 
+			UPDATE_DATE, 
+			USER_ID)
+		values
+			(
+			#{lmbCode}, 
+			#{receiptDate}, 
+			#{receiptNo}, 
+			#{testCode}, 
+			#{specimenCode}, 
+			#{testSubCode}, 
+			#{testName}, 
+			#{specimenName}, 
+			#{workName}, 
+			#{departmentCode}, 
+			#{departmentName}, 
+			#{testStaff}, 
+			#{totalVolume}, 
+			#{numResult1}, 
+			#{numResult2}, 
+			#{numResult3}, 
+			#{chrResult}, 
+			#{choiceFlag}, 
+			#{quantityOfMSpike}, 
+			#{decisionCode}, 
+			#{testDate}, 
+			#{equipmentFlag}, 
+			#{equipmentCode}, 
+			#{barcode}, 
+			#{creationDate}, 
+			#{updateDate}, 
+			#{userId}
+			)
+		ON DUPLICATE KEY UPDATE
+			LMB_CODE 			= #{lmbCode}, 
+			RECEIPT_DATE 		= #{receiptDate}, 
+			RECEIPT_NO 			= #{receiptNo}, 
+			TEST_CODE 			= #{testCode}, 
+			SPECIMEN_CODE 		= #{specimenCode}, 
+			TEST_SUB_CODE 		= #{testSubCode}, 
+			TEST_NAME 			= #{testName}, 
+			SPECIMEN_NAME 		= #{specimenName}, 
+			WORK_NAME 			= #{workName}, 
+			DEPARTMENT_CODE 	= #{departmentCode}, 
+			DEPARTMENT_NAME 	= #{departmentName}, 
+			TEST_STAFF 			= #{testStaff}, 
+			TOTAL_VOLUME 		= #{totalVolume}, 
+			NUM_RESULT1			= #{numResult1}, 
+			NUM_RESULT2			= #{numResult2}, 
+			NUM_RESULT3			= #{numResult3}, 
+			CHR_RESULT 			= #{chrResult}, 
+			CHOICE_FLAG 		= #{choiceFlag}, 
+			QUANTITY_OF_M_SPIKE = #{quantityOfMSpike}, 
+			DECISION_CODE 		= #{decisionCode}, 
+			TEST_DATE 			= #{testDate}, 
+			EQUIPMENT_FLAG 		= #{equipmentFlag}, 
+			EQUIPMENT_CODE 		= #{equipmentCode}, 
+			BARCODE 			= #{barcode}, 
+			CREATION_DATE 		= #{creationDate}, 
+			UPDATE_DATE 		= #{updateDate}, 
+			USER_ID 			= #{userId}
+    </insert>
+
+</mapper>
+

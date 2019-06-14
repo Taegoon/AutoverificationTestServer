@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db2.Db2EPTestResultDao">
+
+ 	<!-- 1. 2019.06.03 결과 정보 'TB_EP_TEST_RESULT'-->
+ 	<resultMap id="epTestResultMap" type="com.seegeneAI.db2MariaDBMapper.data.EPTestResultDto">
+	    <result property="lmbCode" 			column="LMB_CODE" />
+	    <result property="receiptDate"		column="RECEIPT_DATE" />
+	    <result property="receiptNo"		column="RECEIPT_NO" />
+	    <result property="testCode"		column="TEST_CODE" />
+	    <result property="testSubCode"		column="TEST_SUB_CODE" />
+	    <result property="resultType"		column="RESULT_TYPE" />
+	    <result property="specimenCode"		column="SPECIMEN_CODE" />
+	    <result property="specimenName"		column="SPECIMEN_NAME" />
+	    <result property="testName"		column="TEST_NAME" />
+	    <result property="workName"		column="WORK_NAME" />
+	    <result property="departmentCode"		column="DEPARTMENT_CODE" />
+	    <result property="departmentName"		column="DEPARTMENT_NAME" />
+	    <result property="testStaff"		column="TEST_STAFF" />
+	    <result property="totalVolume"		column="TOTAL_VOLUME" />
+	    <result property="numResult1"		column="NUM_RESULT1" />
+	    <result property="numResult2"		column="NUM_RESULT2" />
+	    <result property="numResult3"		column="NUM_RESULT3" />
+	    <result property="chrResult"		column="CHR_RESULT" />
+	    <result property="choiceFlag"		column="CHOICE_FLAG" />
+	    <result property="quantityOfMSpike"		column="QUANTITY_OF_M_SPIKE" />
+	    <result property="decisionCode"		column="DECISION_CODE" />
+	    <result property="testDate"		column="TEST_DATE" />
+	    <result property="testStartDate"		column="TEST_START_DATE" />
+	    <result property="equipmentFlag"		column="EQUIPMENT_FLAG" />
+	    <result property="equipmentCode"		column="EQUIPMENT_CODE" />
+	    <result property="barcode"		column="BARCODE" />
+	    <result property="creationDate"		column="CREATION_DATE" />
+	    <result property="updateDate"		column="UPDATE_DATE" />
+	    <result property="userId"			column="USER_ID" />
+	    
+	</resultMap>
+
+	<select id="selectDb2EPTestResultList" resultMap="epTestResultMap">
+
+		SELECT 
+			TRIM(CASE WHEN TRIM(F600CNO) = '6526' THEN '6526' ELSE '0000' END) AS LMB_CODE ,
+			TRIM(F600DAT) AS RECEIPT_DATE, 
+			TRIM(F600JNO) AS RECEIPT_NO, 
+			TRIM(F600GCD) AS TEST_CODE, 
+			TRIM(F600ACD) AS TEST_SUB_CODE, 
+			TRIM(F011FKN) AS TEST_NAME, 
+			TRIM(F600JOB) AS WORK_NAME,
+			TRIM(F600HAK) AS DEPARTMENT_CODE,
+			TRIM((SELECT F900KNM FROM JMTSLIB. MM900M@ WHERE F900STS='A' AND F900ARA='Y' AND F900CK1='Y' AND F900DPT = F600HAK)) AS DEPARTMENT_NAME,
+			TRIM(F600DSB) AS TEST_STAFF,
+			TRIM(F600NU1) AS NUM_RESULT1, 
+			TRIM(F600NU2) AS NUM_RESULT2, 
+			TRIM(F600NU3) AS NUM_RESULT3, 
+			TRIM(F600CHR) AS CHR_RESULT,
+			TRIM(F600GDT) AS TEST_DATE,
+			TRIM(F600TCD) AS SPECIMEN_CODE,
+			TRIM((SELECT F999NM2 FROM MCLISDLIB . MC999D@ WHERE F999COR = 'NML' AND F999CD1 = 'CLIC' AND F999CD2 = 'SAMP' AND F999CD3 = F600TCD)) AS SPECIMEN_NAME,
+			TRIM((SELECT  F010GTQ FROM MCLISDLIB. MC010M@ WHERE F010COR='NML' AND F010GCD = F600GCD AND  F010TCD = F600TCD)) AS TOTAL_VOLUME,
+			TRIM(F600DEV) AS EQUIPMENT_CODE,
+			TRIM((SELECT F607TXT FROM MCLISDLIB . MC607D@ WHERE F607COR='NML' AND F607DAT = F600DAT AND F607JNO = F600JNO AND F607GCD = F600GCD AND F607ACD = F600ACD)) AS EQUIPMENT_FLAG
+		FROM 
+		   (SELECT * FROM MCLISDLIB. MC600M@
+		   WHERE 1=1
+		   AND F600COR = 'NML'
+		   AND F600DAT BETWEEN '20190101' AND '20190430'
+		   AND F600GCD IN ('00309','00322','00323','00324', '00334','00301','00311','00312', '00313', '00319', '00320', '00307','00310')) D
+		
+		INNER JOIN MCLISDLIB.MC011M@
+		   ON F600COR = F011COR
+		   AND F600GCD = F011GCD
+		   AND F600ACD = F011ACD
+		WHERE 1=1
+		   AND <![CDATA[F600C05<>'N']]>
+		   AND F600C03 = 'Y'
+		
+	</select>
+
+</mapper>
+

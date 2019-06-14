@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db2.Db2EPReceiptDao">
+
+ 	<!-- 1. 2019.05.30 접수 정보 'TB_EP_RECEIPT'-->
+ 	<resultMap id="epReceiptMap" type="com.seegeneAI.db2MariaDBMapper.data.EPReceiptDto">
+	    <result property="lmbCode" 			column="LMB_CODE" />
+	    <result property="receiptDate"		column="RECEIPT_DATE" />
+	    <result property="receiptNo"		column="RECEIPT_NO" />
+	    <result property="hospitalCode"		column="HOSPITAL_CODE" />
+	    <result property="hospitalName"		column="HOSPITAL_NAME" />
+	    <result property="patientName"		column="PATIENT_NAME" />
+	    <result property="sex"				column="SEX" />
+	    <result property="ageYear"			column="AGE_YEAR" />
+	    <result property="status"			column="STATUS" />
+	    <result property="pidPre"			column="PID_PRE" />
+	    <result property="hospitalChartNo"	column="HOSPITAL_CHART_NO" />
+	    <result property="creationDate"		column="CREATION_DATE" />
+	    <result property="updateDate"		column="UPDATE_DATE" />
+	    <result property="userId"			column="USER_ID" />
+	</resultMap>
+
+	<select id="selectDb2EPReceiptList" resultMap="epReceiptMap">
+		SELECT 
+			'0000' AS LMB_CODE,
+			TRIM(MC100H.F100DAT) AS RECEIPT_DATE,
+			TRIM(MC100H.F100JNO) AS RECEIPT_NO,
+			TRIM(MC100H.F100HOS) AS HOSPITAL_CODE,
+			TRIM((SELECT F120FNM FROM MCLISDLIB.MC120M@ WHERE F120COR = 'NML' AND F120PCD = MC100H.F100HOS)) AS HOSPITAL_NAME,
+			TRIM(MC100H.F100NAM) AS PATIENT_NAME,
+			TRIM(MC100H.F100SEX) AS SEX,
+			TRIM(MC100H.F100AGE) AS AGE_YEAR,
+			TRIM(ECHELON . PI_DECSN (MC100H.F100JN1)) AS PID_PRE,
+			TRIM(ECHELON . PI_DECSN (MC100H.F100CHN)) AS HOSPITAL_CHART_NO,
+			TRIM(MC100H.F100CUR) AS USER_ID
+			FROM MCLISDLIB.MC100H@ AS MC100H
+		WHERE<![CDATA[ MC100H.F100DAT >='20190301']]>
+		AND <![CDATA[ MC100H.F100DAT<'20190501']]>
+	</select>
+
+</mapper>
+

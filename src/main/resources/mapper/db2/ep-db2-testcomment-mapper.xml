@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db2.Db2EPTestCommentDao">
+
+ 	<!-- 1. 2019.06.03 결과 이미지 'TB_EP_TEST_IMAGE'-->
+ 	<resultMap id="epTestCommentMap" type="com.seegeneAI.db2MariaDBMapper.data.EPTestCommentDto">
+	    <result property="lmbCode" 			column="LMB_CODE" />
+	    <result property="receiptDate"		column="RECEIPT_DATE" />
+	    <result property="receiptNo"		column="RECEIPT_NO" />
+	    <result property="testCode"			column="TEST_CODE" />
+	    <result property="specimenCode"		column="SPECIMEN_CODE" />
+	    <result property="commentCode"		column="COMMENT_CODE" />
+	    <result property="comment"			column="COMMENT" />
+	    <result property="creationDate"		column="CREATION_DATE" />
+	    <result property="updateDate"		column="UPDATE_DATE" />
+	    <result property="userId"			column="USER_ID" />
+	    
+	</resultMap>
+
+	<select id="selectDb2EPTestCommentList" resultMap="epTestCommentMap">
+
+		SELECT 
+		    TRIM(CASE WHEN TRIM(F600CNO) = '6526' THEN '6526' ELSE '0000' END) AS LMB_CODE
+		    ,TRIM(F600DAT) AS RECEIPT_DATE
+		    ,TRIM(F600JNO) AS RECEIPT_NO
+		    ,TRIM(F600GCD) AS TEST_CODE 
+		    ,TRIM(F600TCD) AS SPECIMEN_CODE
+		    ,TRIM(F600GDT) AS TEST_DATE
+		    ,TRIM(F601TXT) AS COMMENT
+		FROM 
+		   (SELECT DISTINCT F600COR, F600DAT, F600JNO, F600GCD, F600TCD, F600GDT, F600JOB, F600CNO, F600C05, F600C03 FROM MCLISDLIB. MC600M@
+		   WHERE 1=1
+		   AND F600COR = 'NML'
+		   AND F600DAT BETWEEN '20190101' AND '20190430'
+		   AND F600GCD IN ('00309','00322','00323','00324', '00334','00301','00311','00312', '00313', '00319', '00320', '00307','00310')) D
+		
+		   INNER JOIN (SELECT F601COR, F601DAT, F601JNO, F601JOB, TRIM(LISTAGG(TRIM(F601TXT), ' ') WITHIN GROUP(ORDER BY F601COR, F601DAT, F601JNO, F601JOB, F601SEQ)) AS F601TXT FROM MCLISDLIB. MC601D@
+		   WHERE 1=1
+		   AND F601COR = 'NML'
+		   AND F601DAT BETWEEN '20190101' AND '20190430'
+		   GROUP BY F601COR, F601DAT, F601JNO, F601JOB) G
+		   ON F600DAT = F601DAT
+		   AND F600COR = F601COR
+		   AND F600JNO = F601JNO
+		   AND F600JOB = F601JOB
+   		WHERE 1=1
+		   AND F600C05<![CDATA[<>]]>'N'
+		   AND F600C03 = 'Y'
+		
+	</select>
+
+</mapper>
+

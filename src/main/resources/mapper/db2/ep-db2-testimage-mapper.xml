@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db2.Db2EPTestImageDao">
+
+ 	<!-- 1. 2019.06.03 결과 이미지 'TB_EP_TEST_IMAGE'-->
+ 	<resultMap id="epTestImageMap" type="com.seegeneAI.db2MariaDBMapper.data.EPTestImageDto">
+	    <result property="lmbCode" 			column="LMB_CODE" />
+	    <result property="receiptDate"		column="RECEIPT_DATE" />
+	    <result property="receiptNo"		column="RECEIPT_NO" />
+	    <result property="seq"				column="SEQ" />
+	    <result property="testCode"			column="TEST_CODE" />
+	    <result property="testSubCode"		column="TEST_SUB_CODE" />
+	    <result property="specimenCode"		column="SPECIMEN_CODE" />
+	    <result property="sourcePath"		column="SOURCE_PATH" />
+	    <result property="storagePath"		column="STORAGE_PATH" />
+	    <result property="creationDate"		column="CREATION_DATE" />
+	    <result property="updateDate"		column="UPDATE_DATE" />
+	    <result property="userId"			column="USER_ID" />
+	    
+	</resultMap>
+
+	<select id="selectDb2EPTestImageList" resultMap="epTestImageMap">
+
+		SELECT 
+			TRIM('0000') AS LMB_CODE ,
+			TRIM(F602DAT) AS RECEIPT_DATE,
+			TRIM(F602JNO) AS RECEIPT_NO,
+			TRIM(F602GCD) AS TEST_CODE,
+			TRIM(F602ACD) AS TEST_SUB_CODE,
+			TRIM((SELECT F600TCD FROM MCLISDLIB. MC600M@ WHERE F600COR='NML' AND F600DAT = F602DAT AND F600JNO = F602JNO AND F600GCD = F602GCD AND F600ACD = F602ACD)) AS SPECIMEN_CODE,
+			TRIM(F602SEQ) AS SEQ,
+			TRIM(F602PAT) AS STORAGE_PATH
+		FROM MCLISDLIB.MC602D@
+			WHERE F602GCD 
+			IN ('00309','00322','00323','00324', '00334','00301','00311','00312', '00313', '00319', '00320', '00307','00310')
+			AND F602DAT BETWEEN '20190101' AND '20190430'
+		ORDER BY RECEIPT_DATE, F602JNO, F602GCD,F602ACD
+		
+	</select>
+
+</mapper>
+

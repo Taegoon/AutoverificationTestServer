@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seegeneAI.testServer.dao.db2.Db2EPTestCodeDao">
+
+ 	<!-- 1. 2019.06.03 결과 이미지 'TB_EP_TEST_IMAGE'-->
+ 	<resultMap id="epTestCodeMap" type="com.seegeneAI.db2MariaDBMapper.data.EPTestCodeDto">
+	    <result property="lmbCode" 			column="LMB_CODE" />
+	    <result property="testCode"			column="TEST_CODE" />
+	    <result property="specimenCode"		column="SPECIMEN_CODE" />
+	    <result property="testSubCode"		column="TEST_SUB_CODE" />
+	    <result property="departmentCode"	column="DEPARTMENT_CODE" />
+	    <result property="departmentName"	column="DEPARTMENT_NAME" />
+	    <result property="testName"			column="TEST_NAME" />
+	    <result property="specimenName"		column="SPECIMEN_NAME" />
+	    <result property="workName"			column="WORK_NAME" />
+	    <result property="dataType"			column="DATA_TYPE" />
+	    <result property="useFlag"			column="USE_FLAG" />
+	    <result property="creationDate"		column="CREATION_DATE" />
+	    <result property="updateDate"		column="UPDATE_DATE" />
+	    <result property="userId"			column="USER_ID" />
+	</resultMap>
+
+	<select id="selectDb2EPTestCodeList" resultMap="epTestCodeMap">
+
+		SELECT
+		    '0000' AS LMB_CODE,
+		    TRIM(MC010M.F010GCD) AS TEST_CODE,
+		    TRIM(IFNULL(MC011M.F011ACD, '')) AS TEST_SUB_CODE,
+		    TRIM(CASE
+		        WHEN MC011M.F011ACD IS NULL
+		        THEN MC010M.F010SNM
+		    	ELSE MC011M.F011SNM END) AS TEST_NAME,
+		    TRIM(MC010M.F010TCD) AS SPECIMEN_CODE,
+		    TRIM((SELECT F999NM2 FROM MCLISDLIB . MC999D@ WHERE F999COR = 'NML' AND F999CD1 = 'CLIC' AND F999CD2 = 'SAMP' AND F999CD3 = MC010M.F010TCD)) AS SPECIMEN_NAME,
+		    TRIM(MC010M.F010HAK) AS DEPARTMENT_CODE,
+		    TRIM(MC010M.F010JOB) AS WORK_NAME,
+		    TRIM(MC011M.F011RFG) AS DATA_TYPE,
+		    TRIM(MC010M.F010STS) AS USE_FLAG,
+		    TRIM(MM900M.F900KNM) AS DEPARTMENT_NAME
+		FROM MCLISDLIB. MC010M@ AS MC010M
+		LEFT OUTER JOIN MCLISDLIB. MC011M@ AS MC011M
+			ON MC010M.F010COR = MC011M.F011COR
+			AND MC010M.F010GCD = MC011M.F011GCD
+		LEFT OUTER JOIN JMTSLIB. MM900M@ AS MM900M
+			ON MM900M.F900DPT = MC010M.F010HAK
+		WHERE
+			MC010M.F010COR = 'NML'
+		AND MC010M.F010HAK != ''
+		AND MM900M.F900STS='A' 
+		AND MM900M.F900ARA='Y'
+		AND MM900M.F900CK1='Y'
+		
+	</select>
+
+</mapper>
+
